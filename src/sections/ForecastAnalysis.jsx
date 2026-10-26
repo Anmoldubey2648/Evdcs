@@ -116,7 +116,6 @@ export default function ForecastAnalysis({ decisionDate, deliveryDate, cutoffTim
                 axisLine={{ stroke: 'rgba(255,255,255,0.05)' }}
               />
               <YAxis
-                yAxisId="gen"
                 tick={{ fill: 'var(--text-secondary)', fontSize: 11 }}
                 tickLine={false}
                 axisLine={false}
