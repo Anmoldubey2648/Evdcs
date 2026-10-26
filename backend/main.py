@@ -34,6 +34,19 @@ app.add_middleware(
 
 
 @app.middleware("http")
+async def strip_api_prefix(request: Request, call_next):
+    path = request.scope["path"]
+    if path == "/api" or path.startswith("/api/"):
+        request.scope["path"] = path[4:] or "/"
+        raw_path = request.scope.get("raw_path")
+        if isinstance(raw_path, bytes) and (
+            raw_path == b"/api" or raw_path.startswith(b"/api/")
+        ):
+            request.scope["raw_path"] = raw_path[4:] or b"/"
+    return await call_next(request)
+
+
+@app.middleware("http")
 async def prevent_api_response_caching(request: Request, call_next):
     response = await call_next(request)
     response.headers["Cache-Control"] = "no-store"

@@ -92,7 +92,7 @@ MAPE reports its valid sample count separately. Coverage reflects the availabili
 - **Database:** Neon PostgreSQL, SQLAlchemy
 - **Data integration:** Elexon BMRS API
 - **Deployment:** Docker, Docker Compose, Nginx
-- **Hosting configuration:** Vercel rewrite template
+- **Hosting:** Vercel multi-service project (`app` + `backend`)
 
 ## Repository structure
 
@@ -111,7 +111,7 @@ MAPE reports its valid sample count separately. Coverage reflects the availabili
 | `backend/Dockerfile` | FastAPI backend image |
 | `docker-compose.yml` | Local frontend/backend orchestration |
 | `nginx.conf` | Frontend hosting and API proxy configuration |
-| `vercel.json` | SPA fallback and external backend rewrite template |
+| `vercel.json` | Vercel frontend/backend services and `/api/*` routing |
 | `start.bat` | Windows development launcher |
 | `VIDEO_SCRIPT.md` | Customer demo and technical walkthrough recording guide |
 
@@ -263,17 +263,15 @@ Docker runtime checks require a working Docker daemon. Run the tests and build c
 
 ## Deployment
 
-The repository includes Docker configuration and a `vercel.json` template for frontend hosting and backend rewriting.
+The Vercel project deploys the Vite frontend (`app`) at `/` and FastAPI (`backend`) at `/api/*` as services in one project. The backend accepts the `/api` prefix and the original root paths. Configure `DATABASE_URL` in the Vercel project environment settings; never expose it in frontend variables or commit it.
 
-Before deploying:
+- **Production application:** https://gridbricks-evdcs.vercel.app
+- **Backend health:** https://gridbricks-evdcs.vercel.app/api/health
+- **Deployment status:** Production deployment completed and reported `READY` on 2026-10-26.
+- **Verification:** The production page returned the GridBricks HTML; authenticated Vercel CLI requests to `/api/health` and the January 1 KPI endpoint succeeded. Health reported database connected and the KPI returned 24 matched hourly records at the configured 11:00 UTC cutoff.
+- **Deployment inspector:** https://vercel.com/anmoldubey2648s-projects/gridbricks-evdcs/EnWNqERN1NunECnqYYVT5sQMxeUF
 
-1. Deploy the FastAPI backend to a service that supports persistent application hosting.
-2. Configure its `DATABASE_URL`, `DECISION_CUTOFF_TIME`, `ALLOWED_ORIGINS`, and `SYNC_SECRET` environment variables as needed.
-3. Set the real backend URL in the Vercel rewrite configuration and configure the frontend’s allowed origin on the backend.
-4. Ensure the Neon database is reachable from the deployed backend.
-5. Run the historical sync and verify the API responses and dashboard in a private/incognito browser window.
-
-**Live deployment URL:** Add the actual public URL here after deployment and verification.
+The Vercel project currently uses deployment protection for deployment-specific URLs; the production alias was fetched successfully. Backend API checks used the authenticated Vercel CLI.
 
 ## Known limitations
 
