@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL:?Set DATABASE_URL in .env (copy .env.example)}
+      - DECISION_CUTOFF_TIME=${DECISION_CUTOFF_TIME:-11:00}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:5173,http://localhost:80}
+      - SYNC_SECRET=${SYNC_SECRET:-}
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+# NOTE: Neon PostgreSQL is an external cloud database.
+# Do NOT add a postgres container here — use DATABASE_URL env var.
