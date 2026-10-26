@@ -1,7 +1,8 @@
 # GridBricks — UK Wind Forecast Intelligence
 
-**Live Demo:** https://gridbricks-evdcs.vercel.app/
-**Source Code:** https://github.com/Anmoldubey2648/Evdcs
+**Live Demo:** https://gridbricks-evdcs.vercel.app/  
+**Source Code:** https://github.com/Anmoldubey2648/Evdcs  
+**Demo Video:** https://youtu.be/3RXhCSxvPZY
 
 A full-stack wind forecast intelligence dashboard built with React, FastAPI, and Neon PostgreSQL. GridBricks evaluates Elexon national wind generation forecasts against observed generation for January 2026 day-ahead decisions.
 
@@ -22,7 +23,7 @@ A full-stack wind forecast intelligence dashboard built with React, FastAPI, and
 | Backend | Python, FastAPI |
 | Database | Neon PostgreSQL, SQLAlchemy |
 | Data Source | Elexon BMRS — FUELHH and WINDFOR |
-| Deployment | Vercel Services |
+| Deployment | Vercel |
 | Local Infrastructure | Docker, Docker Compose, Nginx |
 
 ## Data Methodology
@@ -40,8 +41,6 @@ A full-stack wind forecast intelligence dashboard built with React, FastAPI, and
 ## Architecture
 
 Elexon BMRS → FastAPI ingestion → Neon PostgreSQL → FastAPI API → React dashboard
-
-The Vercel deployment serves the frontend at `/` and routes backend requests through `/api/*`.
 
 ## Run Locally
 
@@ -121,8 +120,7 @@ Never commit `.env` files or expose credentials in frontend code.
 - `backend/tests/` — Backend tests.
 - `Dockerfile`, `backend/Dockerfile` — Container images.
 - `docker-compose.yml`, `nginx.conf` — Local deployment configuration.
-- `vercel.json` — Vercel service routing.
-- `VIDEO_SCRIPT.md` — Demo and technical walkthrough script.
+- `vercel.json` — Vercel routing configuration.
 
 ## Limitations
 
